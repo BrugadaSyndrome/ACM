@@ -5,16 +5,50 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grader", "Grader\Grader.csproj", "{AB1F462D-7BEE-4286-9B58-14A2EEB15C98}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Problems", "Problems", "{470DD4C5-E844-4C13-A9F9-E5648B880ED7}"
+	ProjectSection(SolutionItems) = preProject
+		Problems\anagram_dictionaries.pdf = Problems\anagram_dictionaries.pdf
+		Problems\box.pdf = Problems\box.pdf
+		Problems\collatz_conjecture.pdf = Problems\collatz_conjecture.pdf
+		Problems\death_valley.pdf = Problems\death_valley.pdf
+		Problems\factorial.pdf = Problems\factorial.pdf
+		Problems\melody.pdf = Problems\melody.pdf
+		Problems\pseudo_random_numbers.pdf = Problems\pseudo_random_numbers.pdf
+		Problems\rock_paper_scissors.pdf = Problems\rock_paper_scissors.pdf
+		Problems\spelling_bee.pdf = Problems\spelling_bee.pdf
+		Problems\topswops.pdf = Problems\topswops.pdf
+	EndProjectSection
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "PythonSolutions", "PythonSolutions\PythonSolutions.pyproj", "{C08CC2ED-B6D4-48D6-8146-C955A4F9F2D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{AB1F462D-7BEE-4286-9B58-14A2EEB15C98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AB1F462D-7BEE-4286-9B58-14A2EEB15C98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB1F462D-7BEE-4286-9B58-14A2EEB15C98}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AB1F462D-7BEE-4286-9B58-14A2EEB15C98}.Debug|x64.Build.0 = Debug|Any CPU
+		{AB1F462D-7BEE-4286-9B58-14A2EEB15C98}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AB1F462D-7BEE-4286-9B58-14A2EEB15C98}.Debug|x86.Build.0 = Debug|Any CPU
 		{AB1F462D-7BEE-4286-9B58-14A2EEB15C98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB1F462D-7BEE-4286-9B58-14A2EEB15C98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB1F462D-7BEE-4286-9B58-14A2EEB15C98}.Release|x64.ActiveCfg = Release|Any CPU
+		{AB1F462D-7BEE-4286-9B58-14A2EEB15C98}.Release|x64.Build.0 = Release|Any CPU
+		{AB1F462D-7BEE-4286-9B58-14A2EEB15C98}.Release|x86.ActiveCfg = Release|Any CPU
+		{AB1F462D-7BEE-4286-9B58-14A2EEB15C98}.Release|x86.Build.0 = Release|Any CPU
+		{C08CC2ED-B6D4-48D6-8146-C955A4F9F2D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C08CC2ED-B6D4-48D6-8146-C955A4F9F2D0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C08CC2ED-B6D4-48D6-8146-C955A4F9F2D0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C08CC2ED-B6D4-48D6-8146-C955A4F9F2D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C08CC2ED-B6D4-48D6-8146-C955A4F9F2D0}.Release|x64.ActiveCfg = Release|Any CPU
+		{C08CC2ED-B6D4-48D6-8146-C955A4F9F2D0}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
