@@ -7,7 +7,8 @@ poss_patterns = ['HHH', 'HHT', 'HTH', 'THH', 'HTT', 'THT', 'TTH', 'TTT']
 flip_dict = {}
 
 def flip():
-    if (int((time.clock()*1000000)%2) == 0):
+    #if (int((time.clock()*1000000)%2) == 0):
+    if (random.randint(0, 1000000)%2 == 0):
         return 'H'
     else:
         return 'T'
