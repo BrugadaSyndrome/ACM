@@ -66,3 +66,5 @@ packages/
 
 #Test files
 *.testsettings
+input.txt
+output.txt
