@@ -17,7 +17,7 @@ def decipher(lhs, rhs):
             t = re.split('\\+', lhs)
             s_lhs = [t[0],'+',t[1]]
             found_op = 'plus'
-            #print 'plus: ', s_lhs
+            print 'plus: ', s_lhs, s_rhs
             
     #mult
     if (not found_op):
@@ -26,7 +26,7 @@ def decipher(lhs, rhs):
             t = re.split('\\*', lhs)
             s_lhs = [t[0],'*',t[1]]
             found_op = 'mult'
-            #print 'mult: ', s_lhs
+            print 'mult: ', s_lhs, s_rhs
 
     #minus
     if (not found_op):
@@ -110,4 +110,15 @@ def main():
         print decipher(lhs, rhs)
         #print
 
-main()
+def main2():
+    test_cases = int(sys.stdin.readline().strip())
+
+    for t in range(test_cases):
+        rune = sys.stdin.readline().strip()
+        match = re.match('(-?)([0-9?]+)([*+-])(-?)([0-9?]+)(=)(-?)([0-9?]+)', rune)
+        if (match):
+            for i in range(1, 9):
+                print match.group(i)
+            #print decipher2(n1, op, n2, s)
+
+main2()
