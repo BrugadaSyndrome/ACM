@@ -1,3 +1,5 @@
+# NOT DONE: Reaching recursion limit... check for already visited planets in free_jump
+
 import sys
 from math import sqrt
 

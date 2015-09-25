@@ -1,7 +1,20 @@
-# NOT DONE
+# NOT DONE: leading zeros is most likely the culprit...
 
 import sys
 import re
+
+#no_leading_zeros
+def nlz(num):
+    if (len(str(num)) == 1):
+        print "nlz len==1: ", num
+        return True
+
+    if (len(num) == len(str(int(num)))):
+        print "nlz: ", num
+        return True
+
+    print "!lz:", num
+    return False
 
 def decipher(n1, op, n2, s):
     for i in range(10):
@@ -9,8 +22,15 @@ def decipher(n1, op, n2, s):
         s2 = '{0}'.format(i).join(n2.split('?'))
         ss = '{0}'.format(i).join(s.split('?'))
         print s1+op+s2+'=='+ss
-        if (eval(s1+op+s2+"=="+ss)):
-            return i
+        if (op == '+'):
+            if (nlz(s1) and nlz(s2) and nlz(ss) and int(s1) + int(s2) == int(ss)):
+                return i
+        elif (op == '*'):
+            if (nlz(s1) and nlz(s2) and nlz(ss) and int(s1) * int(s2) == int(ss)):
+                return i
+        elif (op == '-'):
+            if (nlz(s1) and nlz(s2) and nlz(ss) and int(s1) - int(s2) == int(ss)):
+                return i
     return -1
 
 def main():
