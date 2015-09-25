@@ -1,4 +1,7 @@
-# NOT DONE: Reaching recursion limit... check for already visited planets in free_jump
+# NOT DONE:
+#   YES: ?closest planet via WH to p2, then cal the distance...?
+#       - Case 1: Proxima to Earth is approx 7 but
+#                 Proxima to Barnards = 0  and  Barnards to Earth is 5
 
 import sys
 from math import sqrt
@@ -16,28 +19,42 @@ def parse_wormhole(wormhole_string):
 def parse_query(query_string):
     return query_string.split()
 
-#recursively search wormholes for a valid free jump path
-def free_jump(p1, p2, wormholes):
-    #print p1, "=>",
-    if (p1 not in wormholes.keys()):
-        #print 'No path'
-        return False
-    
-    if (wormholes[p1] == p2):
-        #print p2, 'Done'
-        return True
-    else:
-        return free_jump(wormholes[p1], p2, wormholes)
-
 def distance(p1, p2, planets, wormholes):
     # is there a free jump
-    if (free_jump(p1, p2, wormholes)):
+    wh = wormholes.copy()
+    if (free_jump(p1, p2, [], wh)):
         return 0
 
     # calc the distance
     p1x, p1y, p1z = planets[p1]
     p2x, p2y, p2z = planets[p2]
     return sqrt(pow(p2x-p1x, 2) + pow(p2y-p1y, 2) + pow(p2z-p1z, 2))
+
+#'walk' the wormholes
+def free_jump(start, goal, visited, wormholes):
+    if (start == goal):
+        #print 'Found it!'
+        return True
+
+    #ln 1 will most likely get key errors
+    #print visited, "=>", start, "?", wormholes[start], '? =>', goal, '---', wormholes
+    #print visited, "=>", start, "?=>", goal, '---', wormholes
+
+    if (start in wormholes.keys()):
+        for P in wormholes[start]:
+            # make sure to not loop to previously visited planets
+            if (P not in visited):
+                #print start, '=>',
+                return free_jump(P, goal, visited+[start], wormholes)
+            else:
+                #print "BEEN TO NEXT BEFORE BEFORE! next:", P,
+                L = wormholes[start]
+                #print 'CUR:', start ,'WHL:', L[1:]
+                wormholes[start] = L[1:]
+                return free_jump(start, goal, visited, wormholes)
+    else:
+        #print 'Dead End'
+        return False
 
 def main():
     num_cases = int(sys.stdin.readline().strip())
@@ -55,7 +72,13 @@ def main():
         wormholes = {}
         for wormhole in range(num_wormholes):
             from_p, to_p = parse_wormhole(sys.stdin.readline().strip())
-            wormholes[from_p] = to_p
+            if (from_p in wormholes.keys()):
+                L = wormholes[from_p]
+                wormholes[from_p] = L + [to_p]
+            else:
+                wormholes[from_p] = [to_p]
+
+        #print wormholes
 
         #queries
         num_queries = int(sys.stdin.readline().strip())
