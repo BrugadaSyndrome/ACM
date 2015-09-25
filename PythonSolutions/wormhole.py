@@ -1,7 +1,4 @@
-# NOT DONE:
-#   YES: ?closest planet via WH to p2, then cal the distance...?
-#       - Case 1: Proxima to Earth is approx 7 but
-#                 Proxima to Barnards = 0  and  Barnards to Earth is 5
+# NOT DONE: Most likely not walking all paths so is not garaunteed to find the shortest path
 
 import sys
 from math import sqrt
@@ -44,7 +41,9 @@ def free_jump(start, goal, visited, wormholes, planets):
     #ln 1 will most likely get key errors
     #print visited, "=>", start, "?", wormholes[start], '? =>', goal, '---', wormholes
     #print visited, "=>", start, "?=>", goal, '---', wormholes
-    #print start, goal, distance(start, goal, planets)
+    #print visited, "=>", start, "?=>", goal, '~', distance(start, goal, planets)
+
+    cur_dist = distance(start, goal, planets)
 
     if (start in wormholes.keys()):
         for P in wormholes[start]:
@@ -52,12 +51,12 @@ def free_jump(start, goal, visited, wormholes, planets):
             if (P not in visited):
                 #print start, '=>',
                 result, best_dist = free_jump(P, goal, visited+[start], wormholes, planets)
-                cur_dist = distance(P, goal, planets)
+                next_dist = distance(P, goal, planets)
                 #print '{0} < {1} ? {2}'.format(cur_dist, best_dist, cur_dist<best_dist)
-                if (cur_dist < best_dist):
+                if (cur_dist < next_dist):
                     return (result, cur_dist)
                 else:
-                    return (result, best_dist)
+                    return (result, next_dist)
             else:
                 #print "BEEN TO NEXT BEFORE BEFORE! next:", P,
                 L = wormholes[start]
@@ -66,7 +65,6 @@ def free_jump(start, goal, visited, wormholes, planets):
                 result, best_dist = free_jump(start, goal, visited, wormholes, planets)
     
     #print 'Dead End'
-    cur_dist = distance(start, goal, planets)
     return (False, cur_dist)
 
 def main():
