@@ -15,12 +15,12 @@ def distance(p1, p2, planets):
     p2x, p2y, p2z = planets[p2]
     return sqrt(pow(p2x-p1x, 2) + pow(p2y-p1y, 2) + pow(p2z-p1z, 2))
 
-def closest_distance(p1, p2, planets, wormholes):
-    # is there a free jump
-    wh = wormholes.copy()
-    return walk_wormholes(p1, p2, [], wh, planets)
+def closest_distance(S, G, PL, WH):
+    wh = WH.copy()
+    return walk_wormholes(S, G, [], PL, wh)
 
 #'walk' the wormholes
+'''
 def walk_wormholes(start, goal, visited, wormholes, planets):
     if (start == goal):
         #print 'Found it!'
@@ -54,6 +54,39 @@ def walk_wormholes(start, goal, visited, wormholes, planets):
     
     #print 'Dead End'
     return cur_dist
+'''
+def walk_wormholes(S, G, V, PL, WH):
+    print V, "=>", S, '?=', G
+    
+    # arrived
+    if (S == G):
+        print 'Done'
+        return 0
+
+    if (S in WH.keys()):
+        #check out each node connected by an edge
+        for P in WH[S]:
+            CD = distance(S, G, PL)
+            # looped: remove S->P edge and backtrack
+            if (P in V):
+                WH[S] = WH[S][1:]
+                BD = walk_wormholes(V[-1], G, V[:-1], PL, WH)
+                print CD, "?<", BD
+                if (CD < BD):
+                    return CD
+                else:
+                    return BD
+            # keep exploring
+            else:
+                print 'Keep Walking'
+                BD = walk_wormholes(P, G, V+[S], PL, WH)
+                print CD, "?<", BD
+                if (CD < BD):
+                    return CD
+                else:
+                    return BD
+    else:
+        return distance(S, G, PL)
 
 def main():
     num_cases = int(sys.stdin.readline().strip())
@@ -76,8 +109,6 @@ def main():
                 wormholes[from_p] = L + [to_p]
             else:
                 wormholes[from_p] = [to_p]
-
-        #print wormholes
 
         #queries
         num_queries = int(sys.stdin.readline().strip())
