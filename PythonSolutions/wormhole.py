@@ -1,4 +1,4 @@
-# NOT DONE: Most likely not walking all paths so is not garaunteed to find the shortest path
+# NOT DONE
 
 import sys
 from math import sqrt
@@ -20,41 +20,6 @@ def closest_distance(S, G, PL, WH):
     return walk_wormholes(S, G, [], PL, wh)
 
 #'walk' the wormholes
-'''
-def walk_wormholes(start, goal, visited, wormholes, planets):
-    if (start == goal):
-        #print 'Found it!'
-        return 0
-
-    #ln 1 will most likely get key errors
-    #print visited, "=>", start, "?", wormholes[start], '? =>', goal, '---', wormholes
-    #print visited, "=>", start, "?=>", goal, '---', wormholes
-    #print visited, "=>", start, "?=>", goal, '~', distance(start, goal, planets)
-
-    cur_dist = distance(start, goal, planets)
-
-    if (start in wormholes.keys()):
-        for P in wormholes[start]:
-            # make sure to not loop to previously visited planets
-            if (P not in visited):
-                #print start, '=>',
-                best_dist = walk_wormholes(P, goal, visited+[start], wormholes, planets)
-                next_dist = distance(P, goal, planets)
-                #print '{0} < {1} ? {2}'.format(cur_dist, best_dist, cur_dist<best_dist)
-                if (cur_dist < next_dist):
-                    return cur_dist
-                else:
-                    return next_dist
-            else:
-                #print "BEEN TO NEXT BEFORE BEFORE! next:", P,
-                L = wormholes[start]
-                wormholes[start] = L[1:]
-                best_dist = walk_wormholes(start, goal, visited, wormholes, planets)
-                return best_dist
-    
-    #print 'Dead End'
-    return cur_dist
-'''
 def walk_wormholes(S, G, V, PL, WH):
     print V, "=>", S, '?=', G
     
@@ -63,30 +28,26 @@ def walk_wormholes(S, G, V, PL, WH):
         print 'Done'
         return 0
 
-    if (S in WH.keys()):
-        #check out each node connected by an edge
+    # current distance
+    CD = distance(S, G, PL)
+
+    # keep looking along each wormhole path; return shortest distance
+    if ( (S not in V) and (S in WH.keys()) ):
         for P in WH[S]:
-            CD = distance(S, G, PL)
-            # looped: remove S->P edge and backtrack
-            if (P in V):
-                WH[S] = WH[S][1:]
-                BD = walk_wormholes(V[-1], G, V[:-1], PL, WH)
-                print CD, "?<", BD
-                if (CD < BD):
-                    return CD
-                else:
-                    return BD
-            # keep exploring
-            else:
-                print 'Keep Walking'
-                BD = walk_wormholes(P, G, V+[S], PL, WH)
-                print CD, "?<", BD
-                if (CD < BD):
-                    return CD
-                else:
-                    return BD
-    else:
-        return distance(S, G, PL)
+            ND = walk_wormholes(P, G, V+[S], PL, WH)
+            if (ND < CD):
+                return ND
+    # only step back if you have been somewhere
+    elif( (len(V) > 1) ): #and (len(WH[V[-1]]) > 0) ):
+            # remove dead end or loop branch
+            WH[V[-1]] = WH[V[-1]][1:]
+            # take a step back and keep looking
+            PD = walk_wormholes(V[-1], G, V[:-1], PL, WH)
+            if (PD < CD):
+                return PD
+
+    # no wormholes and have not found a better distance
+    return CD
 
 def main():
     num_cases = int(sys.stdin.readline().strip())
