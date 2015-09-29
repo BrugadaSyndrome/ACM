@@ -1,45 +1,41 @@
 import sys
 
-def purge(leaders, loser):
-    pass
-
-def minority(votes, leaders):
+def majority(votes):
+    for v in votes.keys():
+        if ((votes[v]*1./len(votes))*100 > 60):
+            return votes[v]
     return None
 
-def majority(votes, leaders):
-    for candidate in leaders.keys():
-        if ( (leaders[candidate]/len(votes))*100 > 60 ):
-            return (True, candidate)
-    loser = minoriy(votes, leaders)
-    purge(leaders, loser)
-    return (False, loser)
+def winner(F, S, T):
+    W = majority(F)
 
 def ranked_choice(votes):
-    # Sum all the #1 votes
-    leaders = {}
+    first = {}
+    second = {}
+    third = {}
     for v in votes:
-        v = v[0]
-        if (v in leaders.keys()):
-            ct = leaders[v]
-            leaders[v] = ct+1
-        else:
-            leaders[v] = 1
-    print leaders
+        for p in range(len(v)):
+            # first place vote
+            if (p == 0):
+                if (v[p] not in first.keys()):
+                    first[v[p]] = 1
+                else:
+                    first[v[p]] = first[v[p]] + 1
+            # second place vote
+            elif (p == 1):
+                if (v[p] not in second.keys()):
+                    second[v[p]] = 1
+                else:
+                    second[v[p]] = second[v[p]] + 1
+            # third place vote
+            elif (p == 2):
+                if (v[p] not in third.keys()):
+                    third[v[p]] = 1
+                else:
+                    third[v[p]] = third[v[p]] + 1
 
-    # Do we have a majority ?
-    summary = ""
-    while (True):
-        result, candidate = majority(votes, leaders)
-        if (result == True):
-            summary += candidate
-            return summary
-        else:
-            summary += '{0} -> '.format(candidate)
-            return summary
-    
-    
-
-    
+    W = winner(first, second, third)
+    return W
 
 def main():
     cases = int(sys.stdin.readline().strip())
@@ -52,6 +48,7 @@ def main():
             votes.append(sys.stdin.readline().strip())
 
         print ranked_choice(votes)
+        print
 
 
 main()
