@@ -1,7 +1,5 @@
 import sys
 import re
-from decimal import Decimal
-from fractions import Fraction
 import math
 
 def equal(D1, D2, ACC):
