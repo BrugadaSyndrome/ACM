@@ -1,20 +1,15 @@
 #NOT DONE
 
-import sys
+import sys        
 
-def highest(dia_dict):
-    low_w = 11
-    for w in sorted(dia_dict.keys()):
-        if (w < low_w):
-            low_w = w
+def longest_sub(S, LS):
+    for a in S:
+        print '{0}>{1} and {2}<{3}'.format(a[0], LS[-1][0], a[1], LS[-1][1])
+        if (a[0] > LS[-1][0] and a[1] < LS[-1][1]):
+            LS.append(a)
 
-    high_c = -1
-    for c in sorted(dia_dict.keys()):
-        if (c > high_c):
-            high_c = c
-
-    print low_w, dia_dict[low_w]
-    print high_c, dia_dict[high_c]        
+    print LS 
+    return LS
 
 def main():
     test_cases = int(sys.stdin.readline().strip())
@@ -22,19 +17,15 @@ def main():
     for t in range(test_cases):
         diamonds = int(sys.stdin.readline().strip())
 
-        dia_dict = {}
+        # Sequence
+        S = []
         for d in range(diamonds):
             w, c = sys.stdin.readline().strip().split()
-            w = float(w)
-            c = float(c)
-            dia_dict[w] = c
+            w, c = float(w), float(c)
+            S.append((w, c))
+            #print "({0}, {1})".format(w, c)
 
-        #highest(dia_dict)
-        
-        for d in sorted(dia_dict.keys()):
-            print d, dia_dict[d]
-        
-        print
-        print
+
+        print len(longest_sub(S, [S[0]]))
 
 main()
