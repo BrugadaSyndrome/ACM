@@ -1,5 +1,12 @@
 import math
 import sys
+import math
+
+def distance(p1, p2):
+    a = math.sqrt(pow(p1[0], 2) + pow(p1[1], 2))
+    b = math.sqrt(pow(p2[0], 2) + pow(p2[1], 2))
+    c = math.sqrt(pow(a, 2) + pow(b, 2))
+    return c
 
 def slope(p1, p2):
     num = p2[1]-p1[1]
