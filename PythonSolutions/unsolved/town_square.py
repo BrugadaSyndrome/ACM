@@ -1,4 +1,11 @@
 import sys
+import math
+
+def distance(p1, p2):
+    a = math.sqrt(pow(p1[0], 2) + pow(p1[1], 2))
+    b = math.sqrt(pow(p2[0], 2) + pow(p2[1], 2))
+    c = math.sqrt(pow(a, 2) + pow(b, 2))
+    return c
 
 def fence_it(positions):
 
@@ -17,23 +24,31 @@ def fence_it(positions):
         if (p[1] < bottom[1]):
             bottom = p
 
-    # get side length
-    s1 = abs(right[0] - left[0])
-    s2 = abs(top[1] - bottom[1])
+    left5 = (left[0], left[1]-5)
+    right5 = (right[0], right[1]+5)
+    top5 = (top[0], top[1]+5)
+    bottom5 = (bottom[0], bottom[1]-5)
 
-    #print left, right
-    #print bottom, top
-    #print s1, s2
+    print 'left: {0}, -5: {1}'.format(left, left5)
+    print 'right: {0}, +5 {1}'.format(right, right5)
+    print 'top: {0}, +5: {1}'.format(top, top5)
+    print 'bottom: {0}, -5: {1}'.format(bottom, bottom5)
 
-    # invalid
-    if (s1 == 0 or s2 == 0):
-        return 'no solution'
+    d_left_top = distance(left, right)
+    d_top_right = distance(top, right)
+    d_right_bottom = distance(right, bottom)
+    d_bottom_left = distance(bottom, left)
+    d_left_top5 = distance(left5, right5)
+    d_top_right5 = distance(top5, right5)
+    d_right_bottom5 = distance(right5, bottom5)
+    d_bottom_left5 = distance(bottom5, left5)
 
-    #valid, return longest side + 10 ft padding
-    if (s1 > s2):
-        return '{0:.2f}'.format(s1+10)
-    else:
-        return '{0:.2f}'.format(s2+10)
+    print 'left_top: {0}, 5: {1}'.format(d_left_top, d_left_top5)
+    print 'top_right: {0}, 5: {1}'.format(d_top_right, d_top_right5)
+    print 'right_bottom: {0}, 5: {1}'.format(d_right_bottom, d_right_bottom5)
+    print 'bottom_left: {0}, 5: {1}'.format(d_bottom_left, d_bottom_left5)
+
+    return 'no solution'
 
 def main():
     cases = int(sys.stdin.readline().strip())
