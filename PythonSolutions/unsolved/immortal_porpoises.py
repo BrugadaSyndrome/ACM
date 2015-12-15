@@ -1,31 +1,6 @@
 import sys
 import math
 
-'''
-def fib(A, B, C, Y):
-    print '{0}+{1}={2} A:{5} B:{6}'.format(A, B, A+B, A>=1000000000, B>=1000000000)
-    #if (A>=1000000000):
-    #    A %= 1000000000
-    #if (B>=1000000000):
-    #   B %= 1000000000
-
-    
-    if (C == Y):
-        return (A+1)%1000000000
-    else:
-        return A + fib(B%1000000000, (A+B)%1000000000, C+1, Y)
-'''
-
-# Iterative Fibonacci with 1B upper limmit
-def fib(A, B, C, Y):
-    T = 1
-    while (C <= Y):
-        T = (A + B)%1000000000
-        A = B%1000000000
-        B = T%1000000000
-        C+=1
-    return T
-
 def mod_pow(base, exponent, modulus):
     if (modulus == 1):
         return 0
@@ -40,10 +15,14 @@ def mod_pow(base, exponent, modulus):
 
 def Binet(N):
     phi = (1 + 5 ** 0.5) / 2
-    #A = mod_pow(phi, N, 1000000000)
-    #B = mod_pow(-phi, -N, 1000000000)
-    A = pow(phi, N)
-    B = pow(-1*phi, -N)
+    # Best bet
+    A = mod_pow(phi, N, 1000000000)
+    B = mod_pow(-phi, -N, 1000000000)
+
+    # Correct but no way to mod it...
+    # Overflow Error when caluclating without mod
+    #A = pow(phi, N)
+    #B = pow(-1*phi, -N)
     return (A - B) / 5 ** 0.5
 
 def main():
