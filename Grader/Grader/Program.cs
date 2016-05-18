@@ -9,12 +9,15 @@ namespace Grader
 {
     class Program
     {
-        static private bool DEBUG = false;
-        static private string acm_folder = Directory.GetCurrentDirectory();
-        static private string answer_folder = "Answers";
-        static private string problem_folder = "Problems";
-        static private string solution_folder = "Solutions";
-        static private string[] languages = new string[] { "Python", "C++" };
+        enum DBG { NONE, LOW, MED, HIG };
+        const DBG DBG_LVL = DBG.MED;
+
+        static string acm_folder = Directory.GetCurrentDirectory();
+        static string answer_folder = "Answers";
+        static string problem_folder = "Problems";
+        static string solution_folder = "Solutions";
+        static readonly string[] EXT = { ".cpp", ".py" };
+        static Dictionary<string, string> extensions = new Dictionary<string, string>();
 
         /*
             /Answers
@@ -52,7 +55,8 @@ namespace Grader
 
                 System.IO.DirectoryInfo solutions = new System.IO.DirectoryInfo(Path.Combine(acm_folder, solution_folder, ans.Name));
                 foreach (FileInfo file in solutions.EnumerateFiles()) {
-                    Console.WriteLine("       + {0}", file.Name);
+                    if (extensions.ContainsKey(file.Extension))
+                        Console.WriteLine("       + {0}", file.Name);
                 }
             }
         }
@@ -60,20 +64,22 @@ namespace Grader
         private static bool CreateFolder(string folder) {
             if (!Directory.Exists(folder)) {
                 Directory.CreateDirectory(folder);
-                if (DEBUG)
-                    Console.WriteLine("Folder \"{0}\" created.", folder);
+                LogMessage(DBG.HIG, string.Format("Folder \"{0}\" created.", folder));
                 return true;
             }
             else {
-                if (DEBUG)
-                    Console.WriteLine("Folder \"{0}\" already exists.", folder);
+                LogMessage(DBG.HIG, string.Format("Folder \"{0}\" already exists.", folder));
                 return false;
             }
         }
 
         private static void Setup() {
-            if (DEBUG)
-                Console.WriteLine("Setup started.");
+            LogMessage(DBG.MED, "Setup started.");
+
+            // Add file extensions names to extension dictionary 
+            foreach(string ext in EXT) {
+                extensions.Add(ext, "");
+            }
 
             int folders_created = 0;
 
@@ -88,18 +94,24 @@ namespace Grader
             // Create subdirectories in the Answers and Solutions folders for each pdf file in the Problems folder
             System.IO.DirectoryInfo problem_directory = new System.IO.DirectoryInfo(Path.Combine(acm_folder, problem_folder));
             foreach (FileInfo file in problem_directory.EnumerateFiles()) {
-                if (file.Extension == ".pdf") {
+                if (file.Extension == ".pdf")
+                {
                     if (CreateFolder(Path.Combine(acm_folder, answer_folder, Path.GetFileNameWithoutExtension(file.Name))))
                         folders_created++;
                     if (CreateFolder(Path.Combine(acm_folder, solution_folder, Path.GetFileNameWithoutExtension(file.Name))))
                         folders_created++;
                 }
-                else if (DEBUG)
-                    Console.WriteLine("File found in Problems Directory that is not a PDF: {0}", file.Name);
+                else
+                    LogMessage(DBG.HIG, string.Format("File found in Problems Directory that is not a PDF: {0}", file.Name));
             }
 
-            if (DEBUG)
-                Console.WriteLine("Created {0} folders. \nSetup Done", folders_created);
+            LogMessage(DBG.HIG, string.Format("Created {0} folders", folders_created));
+            LogMessage(DBG.MED, "Setup done.");
+        }
+
+        static void LogMessage(DBG lvl, string msg) {
+            if (lvl <= DBG_LVL)
+                Console.WriteLine("[{0}] {1}", lvl, msg);
         }
 
     }
